@@ -1,0 +1,12 @@
+createrepo
+gcc
+httpd
+libffi-devel
+mock
+openssl-devel
+python3-virtualenv
+python3-pip
+redhat-rpm-config
+rpmdevtools
+vim
+yum-utils

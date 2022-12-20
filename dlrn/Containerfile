@@ -1,0 +1,8 @@
+FROM quay.io/toolbx-images/centos-toolbox:stream9
+
+COPY extra-packages /
+
+RUN dnf -y install $(<extra-packages)
+RUN git clone https://github.com/softwarefactory-project/DLRN.git && \
+    pushd DLRN && \
+	pip3 install .
