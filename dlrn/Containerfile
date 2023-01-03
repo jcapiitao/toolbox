@@ -6,3 +6,7 @@ RUN dnf -y install $(<extra-packages)
 RUN git clone https://github.com/softwarefactory-project/DLRN.git && \
     pushd DLRN && \
 	pip3 install .
+WORKDIR /DLRN
+RUN sed -i 's|datadir=.*|datadir=/DLRN/data|' /DLRN/projects.ini
+COPY .bashrc /root/extra-bashrc
+RUN cat /root/extra-bashrc >> /root/.bashrc
