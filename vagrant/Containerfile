@@ -1,0 +1,16 @@
+FROM registry.fedoraproject.org/fedora-toolbox:37
+
+COPY extra-packages /
+RUN dnf -y install $(<extra-packages)
+
+RUN dnf install -y dnf-plugins-core && \
+    dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo && \
+	dnf install -y vagrant
+
+RUN git clone https://github.com/jcapiitao/vagrant /vagrant
+RUN vagrant plugin install vagrant-openstack-provider
+
+WORKDIR /vagrant
+
+COPY .bashrc /root/extra-bashrc
+RUN cat /root/extra-bashrc >> /root/.bashrc
