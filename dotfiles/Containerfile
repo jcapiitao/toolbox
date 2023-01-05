@@ -1,0 +1,15 @@
+FROM alpine:3.17
+RUN apk add --no-cache bash curl keepassxc age git openssh npm
+
+RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+RUN npm install -g @bitwarden/cli@2022.11.0
+
+COPY README.sh /etc/profile.d/README.sh
+COPY bwsession.sh /etc/profile.d/bwsession.sh
+
+RUN adduser -D -s /bin/bash chezmoi
+USER chezmoi
+WORKDIR /home/chezmoi
+
+COPY entrypoint.sh /
+ENTRYPOINT ["/bin/bash","/entrypoint.sh"]

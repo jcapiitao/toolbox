@@ -9,3 +9,15 @@ podman run --privileged -v ~/workspace/dlrn-data:/DLRN/data --hostname dlrn -it 
 podman build -t vagrant:latest -f vagrant/Containerfile
 podman run --hostname vagrant -v ~/.openrc.sh:/root/.openrc.sh -v ~/.ssh/:/root/.ssh/ -v ~/workspace/vagrant-data/:/vagrant/.vagrant -it vagrant:latest
 ```
+
+# Dotfiles image
+``` bash
+podman build -t dotfiles:latest -f dotfiles/Containerfile
+cat >> bwrc.sh<< EOF
+export BW_CLIENTID=''
+export BW_CLIENTSECRET=''
+export BW_PASSWORD=''
+EOF
+podman secret create bwrc.sh bwrc.sh
+podman run --secret bwrc.sh --userns=keep-id --hostname dotfiles -v $HOME:/home/chezmoi -it dotfiles:latest
+```
