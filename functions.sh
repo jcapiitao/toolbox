@@ -51,3 +51,7 @@ function toolbox_create_containerfunc(){
     done
     source $TOOLBOX_DIR/.container.sh
 }
+
+if [ -f $TOOLBOX_DIR/.container.sh ]; then
+    source $TOOLBOX_DIR/.container.sh
+fi
