@@ -1,0 +1,67 @@
+name: "vagrant: Build and push toolbox images"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - vagrant/**
+      - .github/workflows/build-and-push-vagrant.yaml
+  schedule:
+    - cron:  '0 0 * * MON'
+
+# Prevent multiple workflow runs from racing
+concurrency: ${{ github.workflow }}
+
+env:
+  REGISTRY_USER: 'jcapitao'
+  IMAGE_REGISTRY: 'quay.io'
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+  TOOLBOX_NAME: 'vagrant'
+  LATEST_RELEASE: '0.1'
+
+jobs:
+  build-and-push-images:
+    name: Build and push image
+    strategy:
+      matrix:
+        release: ['0.1']
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Log in to Quay.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        registry: ${{ env.IMAGE_REGISTRY }}
+
+    - name: Build ${{ env.TOOLBOX_NAME }} ${{ matrix.release }} toolbox image
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: quay.io/jcapitao/${{ env.TOOLBOX_NAME }}-toolbox
+        tags: ${{ matrix.release }} latest
+        platforms: linux/amd64
+        layers: false
+        context: ${{ env.TOOLBOX_NAME }}/${{ matrix.release }}
+        containerfiles: |
+          ${{ env.TOOLBOX_NAME }}/${{ matrix.release }}/Containerfile
+
+    - name: Push to quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        tags: ${{ steps.build-image.outputs.image }}:${{ matrix.release }}
+
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
+
+    - name: Push latest tag
+      if: env.LATEST_RELEASE == matrix.release
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        tags: ${{ steps.build-image.outputs.image }}:latest
