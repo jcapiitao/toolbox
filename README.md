@@ -1,7 +1,7 @@
 # DLRN image
 ``` bash
 podman build -t dlrn-toolbox:latest -f dlrn/Containerfile
-podman run --privileged -v $HOME/workspace/dlrn-data/:/DLRN/data/ --hostname dlrn -it quay.io/jcapitao/dlrn-toolbox:latest
+podman run --privileged --userns=keep-id -v $HOME/workspace/dlrn-data/:/DLRN/data/ -v $HOME/workspace/dlrn-data/.bash_history:/home/dlrn/.bash_history -hostname dlrn -it quay.io/jcapitao/dlrn-toolbox:latest
 ```
 
 # Vagrant image

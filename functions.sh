@@ -6,6 +6,11 @@ function toolbox_create_volumes_hostdir(){
     for dir in $(grep -o -e '-v\ [^\ ]*/:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
         mkdir -p "$dir"
     done
+    for file in $(grep -o -e '-v\ [^\ ]*[^\/]:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
+        if [ ! -f $file ]; then
+            touch $file
+        fi
+    done
 }
 
 function toolbox_pull_image_from_registry(){
