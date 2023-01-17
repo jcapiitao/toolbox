@@ -6,17 +6,13 @@ RUN dnf -y install $(<extra-packages)
 RUN git clone https://github.com/softwarefactory-project/DLRN.git && \
     pushd DLRN && \
 	pip3 install .
-
-RUN chown -R root:mock /DLRN
-RUN chmod 666 /DLRN
-RUN find /DLRN -type f -name "*.*" -exec chmod 664 {} \;
-RUN find /DLRN -type d -exec chmod 775 {} \;
-
 RUN sed -i 's|datadir=.*|datadir=/DLRN/data|' /DLRN/projects.ini
 
 COPY functions.sh /etc/profile.d/functions.sh
 
 RUN useradd -G mock -s /bin/bash -d /home/dlrn dlrn
+RUN chown -R dlrn:mock /DLRN
+
 USER dlrn
 WORKDIR /DLRN
 
