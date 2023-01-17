@@ -1,6 +1,5 @@
 #!/bin/bash
 TOOLBOX_DIR=${1:-.}
-REGISTRY_NAMESPACE='quay.io/jcapitao'
 
 function toolbox_create_volumes_hostdir(){
     for dir in $(grep -o -e '-v\ [^\ ]*/:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
@@ -14,11 +13,11 @@ function toolbox_create_volumes_hostdir(){
 }
 
 function toolbox_pull_image_from_registry(){
-    podman pull $REGISTRY_NAMESPACE/$1
+    podman pull $1
 }
 
 function toolbox_pull_all_images_from_registry(){
-    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | uniq`; do
+    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | grep -e "^quay" | uniq`; do
         toolbox_pull_image_from_registry $image
     done
 }
@@ -30,6 +29,7 @@ function format_function(){
 }
 
 function toolbox_create_dotfiles_secret(){
+    echo -e "You need to enter your Bitwarden credential in order to pull dotfiles secret"
     read -p "Enter your BW_CLIENTID : " BW_CLIENTID
     read -sp "Enter your BW_CLIENTSECRET : " BW_CLIENTSECRET
     read -sp "Enter your BW_PASSWORD : " BW_PASSWORD
@@ -46,7 +46,6 @@ EOF
 }
 
 function toolbox_create_containerfunc(){
-    echo -e "You need to enter your Bitwarden credential in order to pull dotfiles secret"
     rm -rf $TOOLBOX_DIR/.container.sh
     for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | uniq`; do
         arr=(${image//:/ })

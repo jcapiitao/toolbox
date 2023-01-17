@@ -12,10 +12,9 @@ RUN chmod 666 /DLRN
 RUN find /DLRN -type f -name "*.*" -exec chmod 664 {} \;
 RUN find /DLRN -type d -exec chmod 775 {} \;
 
-COPY functions.sh /functions.sh
-RUN cat /functions.sh >> /etc/profile.d/functions.sh
-
 RUN sed -i 's|datadir=.*|datadir=/DLRN/data|' /DLRN/projects.ini
+
+COPY functions.sh /etc/profile.d/functions.sh
 
 RUN useradd -G mock -s /bin/bash -d /home/dlrn dlrn
 USER dlrn
