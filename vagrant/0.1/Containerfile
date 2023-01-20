@@ -8,7 +8,6 @@ RUN dnf install -y dnf-plugins-core && \
 	dnf install -y vagrant
 
 RUN git clone https://github.com/jcapiitao/vagrant /vagrant
-RUN vagrant plugin install vagrant-openstack-provider
 
 COPY vagrant-helper.sh /etc/profile.d/vagrant-helper.sh
 
@@ -16,4 +15,5 @@ RUN useradd -s /bin/bash -d /home/vagrant vagrant
 RUN chown -R vagrant:vagrant /vagrant
 
 USER vagrant
+RUN vagrant plugin install vagrant-openstack-provider
 WORKDIR /vagrant

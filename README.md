@@ -7,7 +7,7 @@ podman run --privileged --userns=keep-id -v $HOME/workspace/dlrn-data/:/DLRN/dat
 # Vagrant image
 ``` bash
 podman build -t vagrant-toolbox:latest -f vagrant/Containerfile
-podman run --hostname vagrant -v $HOME/.openrc.sh:/home/vagrant/.openrc.sh -v $HOME/.ssh/:/home/vagrant/.ssh/ -v $HOME/workspace/vagrant-data/:/vagrant/.vagrant/ -it quay.io/jcapitao/vagrant-toolbox:latest
+podman run --userns=keep-id --hostname vagrant -v $HOME/.openrc.sh:/home/vagrant/.openrc.sh -v $HOME/.ssh/:/home/vagrant/.ssh/ -v $HOME/workspace/vagrant-data/:/vagrant/.vagrant/ -it quay.io/jcapitao/vagrant-toolbox:latest
 ```
 
 # Dotfiles image
