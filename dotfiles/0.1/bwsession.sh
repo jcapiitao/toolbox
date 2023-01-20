@@ -2,6 +2,9 @@ if [ -f /run/secrets/bwrc.sh ]; then
     source /run/secrets/bwrc.sh
     if [ "$BW_SESSION" == "" ]; then
         BW_CLIENTID=$BW_CLIENTID BW_CLIENTSECRET=$BW_CLIENTSECRET bw login --apikey >/dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo -e "ERROR: there were an issue while login to Bitwarden"
+        fi
         bw_session=$(bw unlock --passwordenv BW_PASSWORD --raw)
         export BW_SESSION="$bw_session"
     fi
