@@ -29,11 +29,11 @@ function format_function(){
 }
 
 function toolbox_create_dotfiles_secret(){
+    rm bwrc.sh >/dev/null
     echo -e "You need to enter your Bitwarden credential in order to pull dotfiles secret"
     read -p "Enter your BW_CLIENTID : " BW_CLIENTID
     read -sp "Enter your BW_CLIENTSECRET : " BW_CLIENTSECRET
     read -sp "Enter your BW_PASSWORD : " BW_PASSWORD
-    rm bwrc.sh
     cat >> bwrc.sh<< EOF
 export BW_CLIENTID='$BW_CLIENTID'
 export BW_CLIENTSECRET='$BW_CLIENTSECRET'
