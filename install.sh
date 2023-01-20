@@ -1,6 +1,6 @@
 #!/bin/bash
 BASE_DIR=$(dirname $0)
-source $BASE_DIR/functions.sh $BASE_DIR
+source $BASE_DIR/functions.sh
 
 toolbox_create_volumes_hostdir
 toolbox_pull_all_images_from_registry

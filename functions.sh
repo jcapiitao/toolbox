@@ -1,5 +1,5 @@
 #!/bin/bash
-TOOLBOX_DIR=${1:-.}
+TOOLBOX_DIR=$(dirname "$BASH_SOURCE")
 
 function toolbox_create_volumes_hostdir(){
     for dir in $(grep -o -e '-v\ [^\ ]*/:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
