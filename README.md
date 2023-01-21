@@ -19,5 +19,5 @@ export BW_CLIENTSECRET=''
 export BW_PASSWORD=''
 EOF
 podman secret create bwrc.sh bwrc.sh
-podman run --secret bwrc.sh --userns=keep-id --hostname dotfiles -v $HOME:/home/chezmoi/ -it quay.io/jcapitao/dotfiles-toolbox:latest
+podman run --privileged --secret bwrc.sh --userns=keep-id --hostname dotfiles -v $HOME:/home/chezmoi/ -it quay.io/jcapitao/dotfiles-toolbox:latest
 ```
