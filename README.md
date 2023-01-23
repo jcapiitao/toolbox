@@ -19,5 +19,16 @@ export BW_CLIENTSECRET=''
 export BW_PASSWORD=''
 EOF
 podman secret create bwrc.sh bwrc.sh
-podman run --privileged --secret bwrc.sh --userns=keep-id --hostname dotfiles -v $HOME:/home/chezmoi/ -it quay.io/jcapitao/dotfiles-toolbox:latest
+podman run --name dotfiles --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles/:/home/chezmoi/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
+```
+
+# Syncthing image
+``` bash
+podman create --name syncthing --network=host --userns=keep-id -p 8384:8384 -p 22000:22000/tcp -p 22000:22000/udp -p 21027:21027/udp -v /var/home/jcapitao/.config/syncthing:/var/syncthing/config:Z -v /var/home/jcapitao/Documents/:/home/jcapitao/Documents:Z -v /var/home/jcapitao/devices/:/home/jcapitao/devices:Z --hostname=syncthing docker.io/syncthing/syncthing:latest
+# From https://www.redhat.com/sysadmin/podman-run-pods-systemd-services
+cd $HOME/.config/systemd/user
+podman generate systemd --new --files -n syncthing
+systemctl --user daemon-reload
+systemctl --user start pod-my-pod.service
+systemctl --user is-active pod-my-pod.service
 ```
