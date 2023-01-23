@@ -20,7 +20,9 @@ export BW_PASSWORD=''
 EOF
 podman secret create bwrc.sh bwrc.sh
 podman run --name dotfiles --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles/:/home/chezmoi/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
+cp -fsR $HOME/.dotfiles/.* $HOME/
 ```
+Note: I don't mount my entire home directory but only `$HOME/.dotfiles` and then I create symlinks. The main reason is to not have to SELinux relabel the whole home directory.
 
 # Syncthing image
 ``` bash

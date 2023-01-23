@@ -47,10 +47,14 @@ EOF
 
 function toolbox_create_containerfunc(){
     rm -rf $TOOLBOX_DIR/.container.sh
-    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | uniq`; do
+    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | grep -v -e "syncthing" |  cut -d/ -f3- | uniq`; do
         arr=(${image//:/ })
         image_name=${arr[0]}
         run_cmd=$(grep -e "^podman run.*$image" $TOOLBOX_DIR/README.md)
+
+        if [ "$image_name" == "dotfiles-toolbox" ]; then
+            run_cmd="$run_cmd ; cp -fsR $HOME/.dotfiles/.* $HOME"
+        fi
         format_function $image_name "$run_cmd"
     done
     source $TOOLBOX_DIR/.container.sh
