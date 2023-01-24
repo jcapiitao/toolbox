@@ -7,9 +7,7 @@ RUN npm install -g @bitwarden/cli@2022.11.0
 COPY README.sh /etc/profile.d/README.sh
 COPY bwsession.sh /etc/profile.d/bwsession.sh
 
-RUN adduser -D -s /bin/bash chezmoi
-USER chezmoi
-WORKDIR /home/chezmoi
+WORKDIR /root
 
 COPY entrypoint.sh /
 ENTRYPOINT ["/bin/bash","/entrypoint.sh"]

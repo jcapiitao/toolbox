@@ -19,7 +19,7 @@ export BW_CLIENTSECRET=''
 export BW_PASSWORD=''
 EOF
 podman secret create bwrc.sh bwrc.sh
-podman run --name dotfiles --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles/:/home/chezmoi/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
+podman run --name dotfiles --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles:/root/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
 cp -fsR $HOME/.dotfiles/.* $HOME/
 ```
 Note: I don't mount my entire home directory but only `$HOME/.dotfiles` and then I create symlinks. The main reason is to not have to SELinux relabel the whole home directory.
@@ -31,6 +31,6 @@ podman create --name syncthing --network=host --userns=keep-id -p 8384:8384 -p 2
 cd $HOME/.config/systemd/user
 podman generate systemd --new --files -n syncthing
 systemctl --user daemon-reload
-systemctl --user start pod-my-pod.service
-systemctl --user is-active pod-my-pod.service
+systemctl --user start container-syncthing.service
+systemctl --user is-active container-syncthing.service
 ```

@@ -47,7 +47,7 @@ EOF
 
 function toolbox_create_containerfunc(){
     rm -rf $TOOLBOX_DIR/.container.sh
-    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | grep -v -e "syncthing" |  cut -d/ -f3- | uniq`; do
+    for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | grep -v -e "syncthing" -e "create" |  cut -d/ -f3- | uniq`; do
         arr=(${image//:/ })
         image_name=${arr[0]}
         run_cmd=$(grep -e "^podman run.*$image" $TOOLBOX_DIR/README.md)
