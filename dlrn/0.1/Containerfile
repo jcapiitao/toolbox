@@ -15,4 +15,3 @@ RUN chown -R dlrn:mock /DLRN
 
 USER dlrn
 WORKDIR /DLRN
-
