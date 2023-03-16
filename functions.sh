@@ -25,7 +25,7 @@ function toolbox_pull_all_images_from_registry(){
 function format_function(){
     toolbox_name=$1
     toolbox_run=$2
-    echo -e "function $toolbox_name (){\n    $toolbox_run\n}" >> $TOOLBOX_DIR/.container.sh
+    echo -e "function $toolbox_name (){\n   podman ps -a | grep -q -e "$toolbox_name" && podman attach $toolbox_name || $toolbox_run\n}" >> $TOOLBOX_DIR/.container.sh
 }
 
 function toolbox_create_dotfiles_secret(){
@@ -51,10 +51,6 @@ function toolbox_create_containerfunc(){
         arr=(${image//:/ })
         image_name=${arr[0]}
         run_cmd=$(grep -e "^podman run.*$image" $TOOLBOX_DIR/README.md)
-
-        if [ "$image_name" == "dotfiles-toolbox" ]; then
-            run_cmd="$run_cmd ; cp -fsR $HOME/.dotfiles/.* $HOME"
-        fi
         format_function $image_name "$run_cmd"
     done
     source $TOOLBOX_DIR/.container.sh

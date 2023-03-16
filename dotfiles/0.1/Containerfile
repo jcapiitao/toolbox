@@ -1,5 +1,5 @@
 FROM alpine:3.17
-RUN apk add --no-cache bash curl keepassxc age git openssh npm
+RUN apk add --no-cache bash curl keepassxc age git openssh npm vim
 
 RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 RUN npm install -g @bitwarden/cli@2022.11.0

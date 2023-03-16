@@ -7,7 +7,7 @@ podman run --privileged --userns=keep-id -v $HOME/workspace/dlrn-data/:/DLRN/dat
 # Vagrant image
 ``` bash
 podman build -t vagrant-toolbox:latest -f vagrant/Containerfile
-podman run --userns=keep-id --hostname vagrant -v $HOME/.openrc.sh:/home/vagrant/.openrc.sh -v $HOME/.ssh/:/home/vagrant/.ssh/ -v $HOME/workspace/vagrant-data/:/vagrant/.vagrant/ -it quay.io/jcapitao/vagrant-toolbox:latest
+podman run --userns=keep-id --hostname vagrant-toolbox -v $HOME/.openrc.sh:/home/vagrant/.openrc.sh -v $HOME/.ssh/:/home/vagrant/.ssh/ -v $HOME/workspace/vagrant-data/:/vagrant/.vagrant/:Z -it quay.io/jcapitao/vagrant-toolbox:latest
 ```
 
 # Dotfiles image
@@ -19,7 +19,7 @@ export BW_CLIENTSECRET=''
 export BW_PASSWORD=''
 EOF
 podman secret create bwrc.sh bwrc.sh
-podman run --name dotfiles --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles:/root/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
+podman run --name dotfiles-toolbox --userns=keep-id --secret bwrc.sh --hostname dotfiles -v $HOME/.dotfiles:/root/:z --rm -it quay.io/jcapitao/dotfiles-toolbox:latest
 cp -fsR $HOME/.dotfiles/.* $HOME/
 ```
 Note: I don't mount my entire home directory but only `$HOME/.dotfiles` and then I create symlinks. The main reason is to not have to SELinux relabel the whole home directory.
