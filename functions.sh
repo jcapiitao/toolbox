@@ -25,14 +25,17 @@ function toolbox_pull_all_images_from_registry(){
 function format_function(){
     toolbox_name=$1
     toolbox_run=$2
-    echo -e "function $toolbox_name (){\n   podman ps -a | grep -q -e "$toolbox_name" \
-	    if [ $? -eq 0 ]; then
-	        podman start $toolbox_name \
-	        podman attach $toolbox_name \
-	    else \
-	        $toolbox_run\n \
-	    fi \
-	    }" >> $TOOLBOX_DIR/.container.sh
+    cat >> $TOOLBOX_DIR/.container.sh<<EOF
+function $toolbox_name (){
+    podman ps -a | grep -e "$toolbox_name" | grep -q -i -e "created"
+    if [ \$? -eq 0 ]; then
+        podman start $toolbox_name
+        podman attach $toolbox_name
+    else
+        $toolbox_run
+    fi
+    }
+EOF
 }
 
 function toolbox_create_dotfiles_secret(){
