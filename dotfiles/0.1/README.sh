@@ -19,5 +19,9 @@ function help(){
     echo "          git status"
     echo "          git add <file> && git commit -m '' && git push"
     echo ""
+    echo "Syncing BitWarden - Pull the latest vault data from server"
+    echo ""
+    echo "          bw sync"
+    echo ""
 }
 help

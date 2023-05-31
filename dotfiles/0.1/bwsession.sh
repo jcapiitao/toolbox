@@ -7,6 +7,7 @@ if [ -f /run/secrets/bwrc.sh ]; then
         fi
         bw_session=$(bw unlock --passwordenv BW_PASSWORD --raw)
         export BW_SESSION="$bw_session"
+        bw sync
     fi
 else
     echo "You must create the bwrc.sh with the bitwarden secret and pass it as arg with '--secret bwrc.sh'"
