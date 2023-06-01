@@ -1,4 +1,5 @@
 FROM registry.fedoraproject.org/fedora-toolbox:37
+LABEL name="vagrant-toolbox"
 
 COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
