@@ -13,9 +13,9 @@ function target(){
     baseurl="http://trunk.rdoproject.org/${CENTOS_VERSION}/"
     src="master"
     branch=""
-    tag="antelope-uc"
+    tag="bobcat-uc"
 
-    if [[ "${TAG}" != "antelope-uc" ]]; then
+    if [[ "${TAG}" != "bobcat-uc" ]]; then
         branch=$(echo $TAG | awk -F- '{print $1}')
         tag=$TAG
         baseurl="http://trunk.rdoproject.org/${branch}/${CENTOS_VERSION}/"
@@ -31,7 +31,7 @@ function target(){
 }
 
 echo -e "First, target the release and CentOS version:"
-echo -e "Example:     target antelope-uc"
+echo -e "Example:     target bobcat-uc"
 echo -e "             target zed 9"
 echo -e "             target yoga 9"
 echo -e "             target xena 8"
