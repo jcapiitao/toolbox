@@ -20,13 +20,14 @@ function target(){
         tag=$TAG
         baseurl="http://trunk.rdoproject.org/${branch}/${CENTOS_VERSION}/"
         src="stable/${branch}"
-        PROJECT_DISTRO_BRANCH="${TAG}-rdo"
+        distro="${TAG}-rdo"
     fi
 
     sed -i "s%target=.*%target=${target}%" $config_path
     sed -i "s%source=.*%source=${src}%" $config_path
     sed -i "s%baseurl=.*%baseurl=${baseurl}%" $config_path
     sed -i "s%tags=.*%tags=${tag}%" $config_path
+    sed -i "s%distro=.*%distro=${distro}%" $config_path
     sed -i "s%use_components=.*%use_components=true%" $config_path
 }
 
