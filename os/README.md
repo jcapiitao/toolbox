@@ -17,5 +17,5 @@ podman push quay.io/jcapitao/os:latest
 
 On a rpm-ostree based system :
 ```
-rpm-ostree rebase ostree-image-signed:docker://quay.io/jcapitao/os:latest
+rpm-ostree rebase ostree-unverified-registry:quay.io/jcapitao/os:latest
 ```
