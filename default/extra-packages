@@ -17,4 +17,5 @@ python-bugzilla-cli
 redhat-rpm-config
 rpmdevtools
 tmux
+vim
 yum-utils
