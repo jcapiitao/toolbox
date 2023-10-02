@@ -1,0 +1,56 @@
+name: "Default: Build and push toolbox image"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - default/**
+      - .github/workflows/build-and-push-default.yaml
+  schedule:
+    - cron:  '0 0 * * MON'
+
+# Prevent multiple workflow runs from racing
+concurrency: ${{ github.workflow }}
+
+env:
+  REGISTRY_USER: 'jcapitao'
+  IMAGE_REGISTRY: 'quay.io'
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+jobs:
+  build-and-push-images:
+    name: Build and push image
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Log in to Quay.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        registry: ${{ env.IMAGE_REGISTRY }}
+
+    - name: Build toolbox image
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: quay.io/jcapitao/toolbox
+        tags: latest
+        platforms: linux/amd64
+        layers: false
+        context: default
+        containerfiles: |
+          default/Containerfile
+
+    - name: Push to quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        tags: ${{ steps.build-image.outputs.image }}:latest
+
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

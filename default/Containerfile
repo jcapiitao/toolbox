@@ -1,0 +1,10 @@
+FROM registry.fedoraproject.org/fedora:39
+LABEL name="toolbox"
+
+COPY extra-packages /
+RUN dnf -y install $(<extra-packages) && dnf clean all
+
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
+
+RUN rm /extra-packages /requirements.txt
