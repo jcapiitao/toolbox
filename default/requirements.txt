@@ -1,6 +1,3 @@
 git-review
-#TODO: remove comment below once https://softwarefactory-project.io/r/q/topic:add_py312_support
-# is merged
-#rdopkg
-rdopkg@git+https://github.com/jcapiitao/rdopkg.git@add_support_py312
+rdopkg
 tox
