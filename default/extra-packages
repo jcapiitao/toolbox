@@ -19,3 +19,5 @@ rpmdevtools
 tmux
 vim
 yum-utils
+zathura
+zathura-pdf-poppler
