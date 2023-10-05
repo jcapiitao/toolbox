@@ -3,6 +3,7 @@ centos-packager
 createrepo
 fedpkg
 gcc
+gh
 git-delta
 glibc-langpack-en
 httpd
