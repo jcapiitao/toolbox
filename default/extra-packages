@@ -9,6 +9,7 @@ glibc-langpack-en
 httpd
 jq
 libffi-devel
+libreoffice
 mock
 neovim
 openssl-devel
