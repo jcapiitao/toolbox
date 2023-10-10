@@ -8,11 +8,13 @@ git-delta
 glibc-langpack-en
 httpd
 jq
+krb5-devel
 libffi-devel
 libreoffice
 mock
 neovim
 openssl-devel
+python3-devel
 python3-pip
 python3-virtualenv
 python-bugzilla-cli
