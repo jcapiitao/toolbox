@@ -23,6 +23,7 @@ redhat-rpm-config
 rpmdevtools
 tmux
 vim
+weechat
 yum-utils
 zathura
 zathura-pdf-poppler
