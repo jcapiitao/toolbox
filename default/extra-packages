@@ -1,6 +1,7 @@
 ansible
 centos-packager
 createrepo
+entr
 fedpkg
 gcc
 gh
