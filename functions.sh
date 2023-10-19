@@ -2,10 +2,10 @@
 TOOLBOX_DIR=$(dirname "$BASH_SOURCE")
 
 function toolbox_create_volumes_hostdir(){
-    for dir in $(grep -o -e '-v\ [^\ ]*/:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
+    for dir in $(grep -o -e '-v [^\ ]*/:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
         mkdir -p "$dir"
     done
-    for file in $(grep -o -e '-v\ [^\ ]*[^\/]:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
+    for file in $(grep -o -e '-v [^\ ]*[^\/]:' $TOOLBOX_DIR/README.md | awk '{print $2}' | cut -d: -f1 | sed "s|\$HOME|$HOME|g"); do
         if [ ! -f $file ]; then
             touch $file
         fi
@@ -28,13 +28,31 @@ function format_function(){
     cat >> $TOOLBOX_DIR/.container.sh<<EOF
 function $toolbox_name (){
     podman ps -a | grep -e "$toolbox_name" | grep -q -i -e "created"
-    if [ \$? -eq 0 ]; then
+    if podman ps -a | grep -e "$toolbox_name" | grep -q -i -e "created"; then
         podman start $toolbox_name
+        podman attach $toolbox_name
+    elif podman ps -a | grep -e "$toolbox_name" | grep -q -i -e "Up"; then
         podman attach $toolbox_name
     else
         $toolbox_run
     fi
     }
+
+EOF
+}
+
+function format_toolbox_enter(){
+    toolbox_name=$1
+    if [ "$toolbox_name" == "toolbox" ]; then
+        toolbox_alias="tl"
+    else
+        toolbox_alias="$toolbox_name"
+    fi
+    cat >> $TOOLBOX_DIR/.container.sh<<EOF
+function $toolbox_alias (){
+    toolbox enter $toolbox_name
+}
+
 EOF
 }
 
@@ -60,8 +78,12 @@ function toolbox_create_containerfunc(){
     for image in `grep -o -e '[^\ ]*:latest' $TOOLBOX_DIR/README.md | grep -v -e "syncthing" -e "create" |  cut -d/ -f3- | uniq`; do
         arr=(${image//:/ })
         image_name=${arr[0]}
-        run_cmd=$(grep -e "^podman run.*$image" $TOOLBOX_DIR/README.md)
-        format_function $image_name "$run_cmd"
+        run_cmd=$(grep -e "^podman run.*quay.io/jcapitao/$image" $TOOLBOX_DIR/README.md)
+        if [ -n "$run_cmd" ]; then
+            format_function $image_name "$run_cmd"
+	else
+            format_toolbox_enter $image_name
+        fi
     done
     source $TOOLBOX_DIR/.container.sh
 }

@@ -2,6 +2,7 @@
 ``` bash
 podman build -t toolbox:latest -f default/Containerfile
 toolbox create --image toolbox:latest toolbox
+toolbox enter toolbox
 ```
 
 # DLRN image
