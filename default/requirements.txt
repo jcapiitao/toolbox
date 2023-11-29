@@ -2,9 +2,6 @@ git-review
 rdopkg
 tox
 git+https://github.com/rdo-infra/releng.git
-# Remove line below once https://review.opendev.org/c/jjb/python-jenkins/+/881904/5
-# is merged and contained in a new PyPI release
-git+https://github.com/jcapiitao/python-jenkins
 # Remove line below once https://review.opendev.org/c/opendev/git-review/+/898839
 # is merged and contained in a new PyPI release
 setuptools>=66.1.0
