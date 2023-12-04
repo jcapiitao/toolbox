@@ -1,7 +1,7 @@
 # General image
 ``` bash
 podman build -t toolbox:latest -f default/Containerfile
-toolbox create --image toolbox:latest toolbox
+toolbox create --image quay.io/jcapitao/toolbox:latest toolbox
 toolbox enter toolbox
 ```
 
