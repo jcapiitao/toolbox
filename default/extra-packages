@@ -16,6 +16,7 @@ libreoffice
 mock
 neovim
 openssl-devel
+python3.6
 python3-devel
 python3-openstackclient
 python3-pip
