@@ -13,9 +13,9 @@ function target(){
     baseurl="http://trunk.rdoproject.org/${CENTOS_VERSION}/"
     src="master"
     branch=""
-    tag="bobcat-uc"
+    tag="caracal-uc"
 
-    if [[ "${TAG}" != "bobcat-uc" ]]; then
+    if [[ "${TAG}" != "caracal-uc" ]]; then
         branch=$(echo $TAG | awk -F- '{print $1}')
         tag=$TAG
         baseurl="http://trunk.rdoproject.org/${branch}/${CENTOS_VERSION}/"
