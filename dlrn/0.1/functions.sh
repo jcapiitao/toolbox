@@ -32,9 +32,9 @@ function target(){
 }
 
 echo -e "First, target the release and CentOS version:"
-echo -e "Example:     target bobcat-uc"
+echo -e "Example:     target caracal-uc"
+echo -e "             target bobcat 9"
 echo -e "             target zed 9"
 echo -e "             target yoga 9"
-echo -e "             target xena 8"
 echo -e "Then, run DLRN:"
 echo -e "             dlrn --head-only --dev --local --verbose-build --package-name openstack-tacker"
