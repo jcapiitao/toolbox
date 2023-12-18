@@ -24,6 +24,7 @@ python3-virtualenv
 python-bugzilla-cli
 redhat-rpm-config
 rpmdevtools
+rsync
 tmux
 vim
 weechat
