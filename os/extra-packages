@@ -5,4 +5,7 @@ kde-connect
 mako
 mozilla-openh264
 pavucontrol-qt
+virt-install
+virt-manager
+virt-viewer
 tmux
