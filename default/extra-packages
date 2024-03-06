@@ -8,7 +8,6 @@ gcc
 gh
 git-delta
 glibc-langpack-en
-guestfs-tools
 httpd
 jq
 krb5-devel
