@@ -5,7 +5,10 @@ COPY extra-packages /
 RUN dnf -y install $(<extra-packages)
 RUN git clone https://github.com/softwarefactory-project/DLRN.git && \
     pushd DLRN && \
-	pip3 install .
+    # Don't clean chroot after building, in order to be able to shell 
+    # into it and troubleshoot.
+    sed -i "s/'-v', '-r'/'-v', '-N', '-r'/" dlrn/drivers/mockdriver.py && \
+    pip3 install .
 RUN sed -i 's|datadir=.*|datadir=/DLRN/data|' /DLRN/projects.ini
 
 COPY functions.sh /etc/profile.d/functions.sh
