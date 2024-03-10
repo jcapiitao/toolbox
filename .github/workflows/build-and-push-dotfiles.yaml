@@ -17,14 +17,10 @@ env:
   IMAGE_REGISTRY: 'quay.io'
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
   TOOLBOX_NAME: 'dotfiles'
-  LATEST_RELEASE: '0.1'
 
 jobs:
   build-and-push-images:
     name: Build and push image
-    strategy:
-      matrix:
-        release: ['0.1']
 
     runs-on: ubuntu-20.04
 
@@ -39,29 +35,23 @@ jobs:
         password: ${{ env.REGISTRY_PASSWORD }}
         registry: ${{ env.IMAGE_REGISTRY }}
 
-    - name: Build ${{ env.TOOLBOX_NAME }} ${{ matrix.release }} toolbox image
+    - name: Build ${{ env.TOOLBOX_NAME }} toolbox image
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
         image: quay.io/jcapitao/${{ env.TOOLBOX_NAME }}-toolbox
-        tags: ${{ matrix.release }} latest
+        tags: latest
         platforms: linux/amd64
         layers: false
-        context: ${{ env.TOOLBOX_NAME }}/${{ matrix.release }}
+        context: ${{ env.TOOLBOX_NAME }}
         containerfiles: |
-          ${{ env.TOOLBOX_NAME }}/${{ matrix.release }}/Containerfile
+          ${{ env.TOOLBOX_NAME }}/Containerfile
 
     - name: Push to quay.io
       id: push-to-quay
       uses: redhat-actions/push-to-registry@v2
       with:
-        tags: ${{ steps.build-image.outputs.image }}:${{ matrix.release }}
+        tags: ${{ steps.build-image.outputs.image }}:latest
 
     - name: Print image url
       run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
-
-    - name: Push latest tag
-      if: env.LATEST_RELEASE == matrix.release
-      uses: redhat-actions/push-to-registry@v2
-      with:
-        tags: ${{ steps.build-image.outputs.image }}:latest
