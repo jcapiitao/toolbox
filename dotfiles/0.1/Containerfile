@@ -1,8 +1,8 @@
-FROM alpine:3.17
+FROM alpine:3.19
 RUN apk add --no-cache bash curl age git openssh npm vim
 
 RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-RUN npm install -g @bitwarden/cli@2022.11.0
+RUN npm install -g @bitwarden/cli@2024.2.1
 
 COPY README.sh /etc/profile.d/README.sh
 COPY bwsession.sh /etc/profile.d/bwsession.sh
