@@ -13,9 +13,9 @@ function target(){
     baseurl="http://trunk.rdoproject.org/${CENTOS_VERSION}/"
     src="master"
     branch=""
-    tag="caracal-uc"
+    tag="dalmatian-uc"
 
-    if [[ "${TAG}" != "caracal-uc" ]]; then
+    if [[ "${TAG}" != "dalmatian-uc" ]]; then
         branch=$(echo $TAG | awk -F- '{print $1}')
         tag=$TAG
         baseurl="http://trunk.rdoproject.org/${branch}/${CENTOS_VERSION}/"
@@ -32,9 +32,11 @@ function target(){
 }
 
 echo -e "First, target the release and CentOS version:"
-echo -e "Example:     target caracal-uc"
-echo -e "             target bobcat 9"
-echo -e "             target zed 9"
+echo -e "Example:     target dalmatian-uc"
+echo -e "             target caracal"
+echo -e "             target bobcat"
+echo -e "             target zed"
 echo -e "             target yoga 9"
+echo -e "             target yoga 8"
 echo -e "Then, run DLRN:"
 echo -e "             dlrn --head-only --dev --local --verbose-build --package-name openstack-tacker"
