@@ -1,4 +1,5 @@
 ansible
+bind-utils
 borgbackup
 centos-packager
 createrepo
@@ -27,9 +28,11 @@ redhat-rpm-config
 rpmdevtools
 rsync
 tmux
+udiskie
 vim
 weechat
 yum-utils
 zathura
 zathura-pdf-poppler
+zenity
 @virtualization
