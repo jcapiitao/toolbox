@@ -5,6 +5,7 @@ centos-packager
 createrepo
 entr
 fedpkg
+flatpak-spawn
 gcc
 gh
 git-delta
