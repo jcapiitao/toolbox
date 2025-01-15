@@ -17,6 +17,7 @@ libffi-devel
 libreoffice
 mock
 neovim
+nmcli
 openssl-devel
 poppler-utils
 python3.6
@@ -37,3 +38,6 @@ zathura
 zathura-pdf-poppler
 zenity
 @virtualization
+yq
+slurp
+convert
